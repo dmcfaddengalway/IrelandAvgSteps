@@ -47,7 +47,7 @@ int readFile(char *fileName) {
         avgData[numAvgs] = ((irelandAvg *)malloc(sizeof(irelandAvg)));
         
         //Scan in Steps and Kilometers walked
-        fscanf(filePointer, "%d\t%lf%d\t%.2lf\n", &avgData[numAvgs]->steps, &avgData[numAvgs]->km, &avgData[numAvgs]->flights, &avgData[numAvgs]->sleepHrs);
+        fscanf(filePointer, "%d\t%lf\n", &avgData[numAvgs]->steps, &avgData[numAvgs]->km);
         
         //Convert kilometers to miles
         avgData[numAvgs]->mi = convertKm(&avgData[numAvgs]->km);
@@ -63,11 +63,9 @@ int main() {
     char fileName[] = "stepData.txt";
     int i = 0;
     int numSteps, sumSteps = 0;
-    int numFlights, sumFlights = 0;
     double numKm, numMi = 0.0;
     double sumKm, sumMi = 0.0;
-    double numSleepHrs, sumSleepHrs = 0.0;
-    double avgSteps, avgKm, avgMi, avgSleepHrs, avgFlights = 0.0;
+    double avgSteps, avgKm, avgMi = 0.0;
     
     if (!readFile(fileName)) {
         printf("File could not be opened!\n");
@@ -87,34 +85,20 @@ int main() {
         numMi = convertKm(&avgData[i]->km);
         sumMi += numMi;
         
-        //Get total flights climbed
-        numFlights = avgData[i]->flights;
-        sumFlights += numFlights;
-        
-        //Get total sleep hours accumulated
-        numSleepHrs = avgData[i]->sleepHrs;
-        sumSleepHrs += numSleepHrs;
-        
         i++;
     }
     
     avgSteps = (float)(sumSteps / i);
     avgKm = (float)(sumKm / i);
     avgMi = (float)(sumMi / i);
-    avgSleepHrs = (float)(sumSleepHrs / i);
-    avgFlights = (float)(sumFlights / i);
     
     printf("Total Steps: %d\n", sumSteps);
     printf("Total Kilometers: %.2lf\n", sumKm);
     printf("Total Miles: %.2lf\n", sumMi);
-    printf("Total Sleep Hours: %.2lf\n", sumSleepHrs);
-    printf("Total Flights: %d\n", sumFlights);
     printf("=======================================\n");
     printf("Average Steps: %.2lf\n", avgSteps);
     printf("Average Kilometers: %.2lf\n", avgKm);
     printf("Average Miles: %.2lf\n", avgMi);
-    printf("Average Sleep Hours: %.2lf\n", avgSleepHrs);
-    printf("Average Flights: %.2lf\n", avgFlights);
     
     printf("\n\n");
     
